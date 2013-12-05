@@ -91,7 +91,7 @@ class LanguagePack::Rails4 < LanguagePack::Rails3
     run("cp -R vendor/sqlite3 /app/vendor/sqlite3")
 
     # Install sqlite3 gem
-    run("gem install sqlite3 -- --with-sqlite3-dir=/app/vendor/sqlite3")
+    run("gem install sqlite3 -- --with-sqlite3-dir=/app/vendor/sqlite3/usr")
   end
 
   def install_plugins
