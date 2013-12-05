@@ -46,7 +46,7 @@ class LanguagePack::Rails4 < LanguagePack::Rails3
   private
 
   def install_prelang_dependencies
-    topic("Installing Prelang-specific dependencies")
+    topic("Installing Prelang dependencies")
   end
 
   def install_plugins
