@@ -39,10 +39,15 @@ class LanguagePack::Rails4 < LanguagePack::Rails3
   def compile
     instrument "rails4.compile" do
       super
+      install_prelang_dependencies
     end
   end
 
   private
+
+  def install_prelang_dependencies
+    topic("Installing Prelang-specific dependencies")
+  end
 
   def install_plugins
     instrument "rails4.install_plugins" do

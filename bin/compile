@@ -13,8 +13,6 @@ LanguagePack::Instrument.trace 'compile', 'app.compile' do
     pack.topic("Compiling #{pack.name}")
     pack.log("compile") do
       pack.compile
-
-      LanguagePack::ShellHelpers.topic "Installing Prelang-specific dependencies"
     end
   end
 end
