@@ -78,19 +78,20 @@ class LanguagePack::Rails4 < LanguagePack::Rails3
     topic("Installing Prelang dependencies")
 
     # SQLite
-    bin_dir = "vendor/sqlite3"
-    FileUtils.mkdir_p bin_dir
-    FileUtils.mkdir_p "#{bin_dir}/libsqlite3-dev"
+    # ------
+    libsqlite3_dev = UbuntuPackage.new "sqlite3", "libsqlite3-dev", "libsqlite3-dev_3.6.22-1_amd64.deb", "http://mirrors.kernel.org/ubuntu/pool/main/s/sqlite3/"
+    libsqlite3_dev.install!
 
-    Dir.chdir(bin_dir) do |dir|
-      run("curl 'http://mirrors.kernel.org/ubuntu/pool/main/s/sqlite3/libsqlite3-dev_3.6.22-1_amd64.deb' > libsqlite3-dev_3.6.22-1_amd64.deb")
-      run("dpkg -x libsqlite3-dev_3.6.22-1_amd64.deb libsqlite3-dev")
-    end
+    libsqlite3_0 = UbuntuPackage.new "sqlite3", "libsqlite3-0", "libsqlite3-0_3.6.22-1_amd64.deb", "http://mirrors.kernel.org/ubuntu/pool/main/s/sqlite3/"
+    libsqlite3_0.install!
+
+    sqlite3 = UbuntuPackage.new "sqlite3", "sqlite3", "sqlite3_3.6.22-1_amd64.deb", "http://mirrors.kernel.org/ubuntu/pool/main/s/sqlite3/"
+    sqlite3.install!
+
+    run("cp -R vendor/sqlite3 /app/vendor/sqlite3")
 
     # Install sqlite3 gem
     run("gem install sqlite3 -- --with-sqlite3-dir=/app/vendor/sqlite3")
-
-
   end
 
   def install_plugins
