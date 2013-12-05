@@ -47,6 +47,8 @@ class LanguagePack::Rails4 < LanguagePack::Rails3
 
   def install_prelang_dependencies
     topic("Installing Prelang dependencies")
+    puts `whoami`
+
   end
 
   def install_plugins
