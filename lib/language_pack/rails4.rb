@@ -1,6 +1,35 @@
 require "language_pack"
 require "language_pack/rails3"
 
+class UbuntuPackage
+  include LanguagePack::ShellHelpers
+
+  attr_accessor :vendor_dir, :name, :deb_filename, :url_prefix
+
+  def initialize(vendor_dir, name, deb_filename, url_prefix)
+    @vendor_dir = vendor_dir
+    @name = name
+    @deb_filename = deb_filename
+    @url_prefix = url_prefix
+  end
+
+  def deb_url
+    "#{@url_prefix}/#{@deb_filename}"
+  end
+
+  def install!()
+    bin_dir = "vendor/#{@vendor_dir}"
+    FileUtils.mkdir_p bin_dir
+
+    Dir.chdir(bin_dir) do |dir|
+      run("curl '#{deb_url()}' > #{@deb_filename}")
+      run("dpkg -x #{@deb_filename} .")
+      FileUtils.rm @deb_filename
+    end
+
+  end
+end
+
 # Rails 4 Language Pack. This is for all Rails 4.x apps.
 class LanguagePack::Rails4 < LanguagePack::Rails3
   ASSETS_CACHE_LIMIT = 52428800 # bytes
@@ -47,7 +76,20 @@ class LanguagePack::Rails4 < LanguagePack::Rails3
 
   def install_prelang_dependencies
     topic("Installing Prelang dependencies")
-    puts `whoami`
+
+    # SQLite
+    bin_dir = "vendor/sqlite3"
+    FileUtils.mkdir_p bin_dir
+    FileUtils.mkdir_p "#{bin_dir}/libsqlite3-dev"
+
+    Dir.chdir(bin_dir) do |dir|
+      run("curl 'http://mirrors.kernel.org/ubuntu/pool/main/s/sqlite3/libsqlite3-dev_3.6.22-1_amd64.deb' > libsqlite3-dev_3.6.22-1_amd64.deb")
+      run("dpkg -x libsqlite3-dev_3.6.22-1_amd64.deb libsqlite3-dev")
+    end
+
+    # Install sqlite3 gem
+    run("gem install sqlite3 -- --with-sqlite3-dir=/app/vendor/sqlite3")
+
 
   end
 
