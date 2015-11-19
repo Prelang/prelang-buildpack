@@ -23,8 +23,8 @@ class LanguagePack::Rails2 < LanguagePack::Ruby
   def default_config_vars
     instrument "rails2.default_config_vars" do
       super.merge({
-        "RAILS_ENV" => "production",
-        "RACK_ENV" => "production"
+        "RAILS_ENV" => env("RAILS_ENV") || "production",
+        "RACK_ENV"  => env("RACK_ENV")  || "production",
       })
     end
   end
@@ -48,6 +48,16 @@ class LanguagePack::Rails2 < LanguagePack::Ruby
       install_plugins
       super
     end
+  end
+
+  def best_practice_warnings
+    if env("RAILS_ENV") != "production"
+      warn(<<-WARNING)
+You are deploying to a non-production environment: #{ env("RAILS_ENV").inspect }.
+See https://devcenter.heroku.com/articles/deploying-to-a-custom-rails-environment for more information.
+WARNING
+    end
+    super
   end
 
 private

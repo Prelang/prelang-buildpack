@@ -1,5 +1,175 @@
 ## Master
 
+## v141 (11/03/2015)
+
+* Support for custom JDK versions in system.properties (#423)
+* Fix nodejs buildpack integration (#429)
+* Automatic jruby heap setting for IX dynos (#426)
+* Warn when RAILS_ENV != production (https://devcenter.heroku.com/articles/deploying-to-a-custom-rails-environment)
+* Warn when using asset_sync (https://devcenter.heroku.com/articles/please-do-not-use-asset-sync)
+
+## v140 (9/9/2015)
+
+* JRuby specific ruby error message (#412)
+
+## v139 (8/31/2015)
+
+* Cached asset file should never take precedent over existing file (#402)
+* Do not write `database.yml` when using active record >= 4.1 (previously we only detected >= Rails 4.1) (#403)
+
+## v138 (5/19/2015)
+
+* Bump bundler to 1.9.7 [Bundler changelog](https://github.com/bundler/bundler/blob/master/CHANGELOG.md#196-2015-05-02) (#378)
+
+## v137 (5/11/2015)
+
+* Blacklist `JRUBY_OPTS`, use `JRUBY_BUILD_OPTS` to override build `JRUBY_OPTS`.  (#384)
+* Revert `--dev` during JRuby build for now. (#384)
+
+## v136 (5/6/2015)
+
+* JRUBY_BUILD_OPTS env var will override any build time jruby opts (#381)
+
+## v135 (5/5/2015)
+
+* Support sprockets 3.0 manifest file naming convention (#367)
+* Set `--dev` by default for JRuby builds (but not at runtime). This optimizes the JVM for short process and is ideal for `bundle install` and asset precompiles.
+* Cleanup `.git` folders in the bundle directory after `bundle install`.
+
+## v134 (3/1/2015)
+
+* JVM is now available on cedar-14, do not vendor in JVM based on individual gems. If customer needs a specific version they should use multibuildpack with java and ruby buildpacks.
+* Set a default value of WEB_CONCURRENCY based on dyno size when `SENSIBLE_DEFAULTS` environment variable is present.
+* Run `bundle clean` in the same context as `bundle install` heroku/heroku-buildpack-ruby#347
+* Rails 4.2+ apps will have environment variable RAILS_SERVE_STATIC_FILES set to "enabled" by default #349
+* Rails 5 apps now work on Heroku #349
+
+## v133 (1/22/2015)
+
+* Bump bundler to 1.7.12 which includes multiple fixes and support for block source declaration (https://github.com/bundler/bundler/blob/1-7-stable/CHANGELOG.md).
+
+## v132 (1/21/2015)
+
+* Support multibuildpack export file (#319)
+* Auto set the JVM MAX HEAP based on dyno size for JRuby (#323)
+* Use s3 based npmjs servers for node (#336)
+* Support system.properties file for specifying JDK in JRuby (#305)
+* Fix ruby version parsing to support JRuby 9.0.0.0.pre1 (#339)
+
+## v131 (1/15/2015)
+
+* Revert v130 due to lack of propper messaging around WEB_CONCURRENCY settings.
+
+## v130 (1/15/2015)
+
+* Auto set WEB_CONCURRENCY based on dyno size if not already set.
+* Support multibuildpack export file (#319)
+* Auto set the JVM MAX HEAP based on dyno size for JRuby (#323)
+* Use s3 based npmjs servers for node (#336)
+* Support system.properties file for specifying JDK in JRuby (#305)
+
+## v129 (11/6/2014)
+
+* Fix asset caching bug (#300)
+
+## v128 (11/4/2014)
+
+* Better cedar14 Ruby install error message
+
+## v127 (9/18/2014)
+
+* rbx is now stack aware
+
+## v126 (8/4/2014)
+
+* fix bundler cache clearing on ruby version change
+* vendor the jvm when yui-compressor is detected
+
+## v125 (8/1/2014)
+
+* bump to node 0.10.30 on cedar-14
+
+## v124 (8/1/2014)
+
+* use node 0.10.29 on cedar-14
+* properly use vendored jvm, so not to be dependent on java on the stack image
+
+## v123 (7/25/2014)
+
+* fix permission denied edge cases when copying the bundler cache with minitest
+
+## v122 (7/25/2014)
+
+* handle bundler cache for stack changes on existing apps
+
+## v121 (6/30/2014)
+
+* on new apps, source default envs instead of replacing them
+* support different stacks for new apps
+
+## v120 (6/16/2014)
+
+* Bump bundler to 1.6.3 which includes improved dependency resolver
+
+## v119 (5/9/2014)
+
+* Temporarily disable default ruby cache
+
+## v118 (5/6/2014)
+
+* Ruby version detection now loads user environment variables
+
+## v117 (4/14/2014)
+
+Features:
+
+
+Bugfixes:
+
+* fix anvil use case of multibuildpack with node
+
+
+## v116 (4/10/2014)
+
+Features:
+
+
+Bugfixes:
+
+* Revert back to Bundler 1.5.2
+
+
+## v115 (4/9/2014)
+
+Features:
+
+
+Bugfixes:
+
+* Add default process types to all apps deployed regardless of `Procfile`
+
+## v114 (4/9/2014)
+
+Features:
+
+* Bundler 1.6.1
+* Warn when not using a Procfile (looking at you webrick)
+
+Bugfixes:
+
+
+## v113 (4/8/2014)
+
+Features:
+
+* use heroku-buildpack-nodejs's node binary
+* `CURL_CONNECT_TIMEOUT` and `CURL_TIMEOUT` are configurable as ENV vars
+
+Bugfixes:
+
+* Don't double print "Running: rake assets:precompile" on Ruby apps
+
+
 ## v112 (3/27/2014)
 
 Features:
